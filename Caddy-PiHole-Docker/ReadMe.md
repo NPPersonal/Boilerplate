@@ -13,10 +13,10 @@ Once PiHole is running in docker your need to configure your router's primary DN
 
 ---
 
-Caddy revers proxy required domain in order to work in local network. need to setup DNS records in PiHole so that your Caddy reverse proxy can use the domain in local network.
+**Caddy reverse proxy required domain in order to work in local network**. You need to setup DNS records in PiHole so that your Caddy reverse proxy can use the domain to do reverse proxy in local network.
 ![Example](./dns-records.png)
 
-Make sure you use these domain in your caddy configuration file(Caddyfile).
+**Make sure you use these domain in your caddy configuration file(Caddyfile)**.
 
 ```
 {
