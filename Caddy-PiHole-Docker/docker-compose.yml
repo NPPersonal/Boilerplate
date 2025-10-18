@@ -17,11 +17,11 @@ services:
       - "443:443"
       - "443:443/udp"
     volumes:
-      # Modify Path_To_Persistance to storage path
-      - Path_To_Persistance:/etc/caddy
-      - Path_To_Persistance/site:/srv
-      - Path_To_Persistance/data:/data
-      - Path_To_Persistance/config:/config
+      # Modify <Path_To_Persistance> to storage path
+      - <Path_To_Persistance>:/etc/caddy
+      - <Path_To_Persistance>:/site:/srv
+      - <Path_To_Persistance>:/data:/data
+      - <Path_To_Persistance>:/config:/config
     # Run caddy with config file(Caddyfile) and watch file change to auto reload config file
     command: caddy run --config /etc/caddy/Caddyfile --watch
     networks:
@@ -33,10 +33,10 @@ services:
     container_name: caddymanager-mongodb
     restart: unless-stopped
     environment:
-      # Modify [Your_Username] to desired username
-      - MONGO_INITDB_ROOT_USERNAME=[Your_Username]
-      # Modify [Your_Password] to desired password
-      - MONGO_INITDB_ROOT_PASSWORD=[Your_Password] # Change for production!
+      # Modify <Your_Username> to desired username
+      - MONGO_INITDB_ROOT_USERNAME=<Your_Username>
+      # Modify <Your_Password> to desired password
+      - MONGO_INITDB_ROOT_PASSWORD=<Your_Password> # Change for production!
     ports:
       - "27017:27017" # Expose for local dev, remove for production
     volumes:
@@ -58,8 +58,8 @@ services:
       # SQLite Configuration (used when DB_ENGINE=sqlite)
       - SQLITE_DB_PATH=/app/data/caddymanager.sqlite
       # MongoDB Configuration (used when DB_ENGINE=mongodb)
-      # Modify [Username] and [Password] to the one you set in mangodb service above
-      - MONGODB_URI=mongodb://[Username]:[Password]@mongodb:27017/caddymanager?authSource=admin
+      # Modify <Username> and <Password> to the one you set in mangodb service above
+      - MONGODB_URI=mongodb://<Username>:<Password>@mongodb:27017/caddymanager?authSource=admin
       - CORS_ORIGIN=http://localhost:80
       - LOG_LEVEL=debug
       - CADDY_SANDBOX_URL=http://localhost:2019
@@ -111,18 +111,18 @@ services:
       # Set the appropriate timezone for your location (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones), e.g:
       TZ: "Asia/Taipei"
       # Set a password to access the web interface. Not setting one will result in a random password being assigned
-      # Modify [Your_Password] to desired password
-      FTLCONF_webserver_api_password: "[Your_Password]"
+      # Modify <Your_Password> to desired password
+      FTLCONF_webserver_api_password: "<Your_Password>"
       # If using Docker's default `bridge` network setting the dns listening mode should be set to 'all'
       FTLCONF_dns_listeningMode: "all"
     # Volumes store your data between container upgrades
     volumes:
       # For persisting Pi-hole's databases and common configuration file
-      # Modify Path_To_Persistance to storage path
-      - "Path_To_Persistance:/etc/pihole"
+      # Modify <Path_To_Persistance> to storage path
+      - "<Path_To_Persistance>:/etc/pihole"
       # Uncomment the below if you have custom dnsmasq config files that you want to persist. Not needed for most starting fresh with Pi-hole v6. If you're upgrading from v5 you and have used this directory before, you should keep it enabled for the first v6 container start to allow for a complete migration. It can be removed afterwards. Needs environment variable FTLCONF_misc_etc_dnsmasq_d: 'true'
       # Modify Path_To_Persistance to storage path
-      - "Path_To_Persistance:/etc/dnsmasq.d"
+      - "<Path_To_Persistance>:/etc/dnsmasq.d"
     networks:
       - proxy_network
     cap_add:
