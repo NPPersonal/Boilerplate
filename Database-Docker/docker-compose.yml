@@ -1,0 +1,26 @@
+services:
+  postgresql:
+    image: postgres
+    container_name: postgresql
+    restart: always
+    # set shared memory limit when using docker compose
+    shm_size: 128mb
+    # or set shared memory limit when deploy via swarm stack
+    #volumes:
+    #  - type: tmpfs
+    #    target: /dev/shm
+    #    tmpfs:
+    #      size: 134217728 # 128*2^20 bytes = 128Mb
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: <USERNAME>
+      POSTGRES_PASSWORD: <PASSWORD>
+      # initial database to create
+      POSTGRES_DB: <INITIAL_DB_NAME>
+    networks:
+      - caddy_proxy_network
+
+networks:
+  caddy_proxy_network:
+    external: true

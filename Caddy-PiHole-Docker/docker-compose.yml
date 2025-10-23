@@ -7,23 +7,28 @@ services:
   ## https://caddyserver.com/
   ######
   caddy:
-    image: caddy:latest
+    # use self build image
+    image: tomneo2004/caddyx:latest
     container_name: caddy
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
     ports:
       - "80:80"
+      - "80:80/udp"
       - "443:443"
       - "443:443/udp"
+      - "2019:2019"
+    environment:
+      # expose caddy api
+      CADDY_ADMIN: 0.0.0.0:2019
     volumes:
       # Modify <Path_To_Persistance> to storage path
-      - <Path_To_Persistance>:/etc/caddy
-      - <Path_To_Persistance>:/site:/srv
-      - <Path_To_Persistance>:/data:/data
-      - <Path_To_Persistance>:/config:/config
-    # Run caddy with config file(Caddyfile) and watch file change to auto reload config file
-    command: caddy run --config /etc/caddy/Caddyfile --watch
+      # - <Path_To_Persistance>:/etc/caddy # don't need
+      - <Path_To_Persistance>/site:/srv
+      - <Path_To_Persistance>/data:/data
+      - <Path_To_Persistance>/config:/config
+    command: caddy run
     networks:
       - proxy_network
 
@@ -34,9 +39,9 @@ services:
     restart: unless-stopped
     environment:
       # Modify <Your_Username> to desired username
-      - MONGO_INITDB_ROOT_USERNAME=<Your_Username>
+      - MONGO_INITDB_ROOT_USERNAME: <Your_Username>
       # Modify <Your_Password> to desired password
-      - MONGO_INITDB_ROOT_PASSWORD=<Your_Password> # Change for production!
+      - MONGO_INITDB_ROOT_PASSWORD: <Your_Password> # Change for production!
     ports:
       - "27017:27017" # Expose for local dev, remove for production
     volumes:
