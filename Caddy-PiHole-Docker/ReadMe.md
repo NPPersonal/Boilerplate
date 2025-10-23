@@ -1,3 +1,7 @@
+## Caddy configuration
+
+Use pre-confiugre project as template [here](https://github.com/NPPersonal/Caddy-Home-Config) for caddy
+
 ## PiHole
 
 ---
